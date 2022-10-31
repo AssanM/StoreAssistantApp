@@ -1,0 +1,39 @@
+﻿@model IEnumerable<StoreModel>
+@{
+	string strTitle = "Store Report";
+	ViewBag.Title = strTitle;
+}
+<div class="roleTable">	
+	@if (Model.Any())
+	{
+		<table id="keywords" cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th><span>@Html.DisplayNameFor(model=>model.Warehouse)</span></th>
+					<th><span>@Html.DisplayNameFor(model=>model.Nomenclature)</span></th>
+					<th><span>@Html.DisplayNameFor(model=>model.Count)</span></th>
+					<th><span>@Html.DisplayNameFor(model=>model.Time)</span></th>					
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem=>item.Warehouse)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem=>item.Nomenclature)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem=>item.Count)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem=>item.Time)
+						</td>						
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+</div> 

@@ -1,0 +1,81 @@
+﻿@using Newtonsoft.Json
+@model MoveHistory
+@{
+	var val = @Html.Raw(JsonConvert.SerializeObject(ViewBag.listOfNom));	
+	var valCount = @Html.Raw(JsonConvert.SerializeObject(ViewBag.NomMaxCount));
+}
+@section Scripts
+{
+	<script>		
+		$(function (){			
+			$("#btnAddNum").click(function (){
+				var valCount = '@Html.Raw(valCount)';
+				var objCount = $.parseJSON(valCount);
+				let container = document.getElementById("nomenclatures");
+				let fieldCount = container.getElementsByTagName("select").length;
+				let nextFieldId = fieldCount + 2;
+				if (objCount>=nextFieldId)
+				{
+					let div = document.createElement("div");
+					div.setAttribute("class", "div-box");
+				
+					var val = '@Html.Raw(val)';
+					var obj = $.parseJSON(val);
+					let ddlfield=document.createElement("select");
+					ddlfield.id = "ddlNum" + nextFieldId;
+					ddlfield.name = "ddlNum" + nextFieldId;
+					console.log(obj);
+					for(var i=0;i<obj.length;i++)
+					{
+						var option=document.createElement("option");
+						option.innerHTML=obj[i].Name;
+						option.value=obj[i].Id;
+						ddlfield.options.add(option);
+					}
+				
+					div.appendChild(ddlfield);
+					let countField = document.createElement("input");
+					countField.id = "Count"+nextFieldId;
+					countField.type="number";
+					countField.name = "Count" + nextFieldId;
+					countField.min=0;
+					div.appendChild(countField);
+				
+					container.appendChild(div);
+				}
+			})
+		})
+		
+	</script>
+}
+<h1>Create new History</h1>
+<div class="row">
+	<h2><strong style="color:red">@TempData["Message"]</strong></h2>
+	<div class="col-md-12">
+		<form method="post">
+			<div asp-validation-summary="All" class="text-danger"></div>
+			<div class="div-box">
+				<label asp-for="FromWarehouse"></label>
+				@Html.DropDownList("ddlFromWarhouses", new SelectList(ViewBag.listOfWarehouses,"Id","Name"),new {@id="FromId"})
+			</div>
+			<div class="div-box">
+				<label asp-for="ToWarehouse"></label>
+				@Html.DropDownList("ddlToWarhouses", new SelectList(ViewBag.listOfWarehouses,"Id","Name"),new {@id="ToId"})
+			</div>
+			<div class="row">
+				
+				<div class="col-3">
+					<input type="button" class="btn btn-primary" value="Add Num" id="btnAddNum" />	
+					<div class="div-box">
+						<select asp-items="@(new SelectList(ViewBag.listOfNom,"Id","Name"))" id="ddlNum1" name="ddlNum1"></select>
+					</div>
+					<div class="div-box">
+						<input id="Count1" type="number" name="Count1" min="0"/>
+					</div>
+						<div id="nomenclatures" class="col-9"></div>
+				</div>
+			</div>			
+			<input type="submit" value="Save" />
+		</form>
+	</div>
+</div>

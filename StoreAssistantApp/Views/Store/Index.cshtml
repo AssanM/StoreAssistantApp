@@ -1,0 +1,54 @@
+﻿@model IEnumerable<MoveModel>
+@{
+	string strTitle="Store Assistant";
+	ViewBag.Title = strTitle;
+}
+<div class="roleTable">
+	<div class="div-box">
+		<a asp-controller="Store" asp-action="AddHistory" asp-route-id="">
+			<input type="button" value="Добавить" id="Role-btn"/></a>
+	</div>
+	@if (Model.Any())
+	{
+		<table id="keywords" cellpadding="0" cellspacing="0">
+		<thead>
+			<tr>
+				<th><span>@Html.DisplayNameFor(model=>model.FromWarehouse)</span></th>
+				<th><span>@Html.DisplayNameFor(model=>model.ToWarehouse)</span></th>
+				<th><span>@Html.DisplayNameFor(model=>model.Nomenclature)</span></th>
+				<th><span>@Html.DisplayNameFor(model=>model.Count)</span></th>
+				<th><span>@Html.DisplayNameFor(model=>model.Time)</span></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem=>item.FromWarehouse)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem=>item.ToWarehouse)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem=>item.Nomenclature)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem=>item.Count)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem=>item.Time)
+					</td>
+					<td>
+						<form style="display:inline-block" id="form-@item.HistoryId" asp-controller="Store" asp-action="DeleteHistory" method="post">
+							<input type="hidden" name="historyId" value="@item.HistoryId">
+							<a href="#" onclick="document.getElementById('form-@item.HistoryId').submit();">Удалить</a>
+						</form>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	}
+</div> 
